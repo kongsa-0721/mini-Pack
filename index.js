@@ -5,6 +5,8 @@ import parser from "@babel/parser";
 import traverse from "@babel/traverse";
 import { transformFromAst } from "babel-core";
 import jsonLoader from "./example/jsonLoader.js";
+import changeOutPutPath from "./example/changeOutPutPath.js";
+import { SyncHook } from "tapable";
 
 //id就是每一个文件的id
 let id = 0;
@@ -17,6 +19,10 @@ const webpackConfig = {
       },
     ],
   },
+  plugins: [new changeOutPutPath()],
+};
+const hooks = {
+  emitFile: new SyncHook(["context"]),
 };
 function createAsset(filepath) {
   //获取内容
@@ -64,7 +70,6 @@ function createAsset(filepath) {
 }
 
 //获取依赖关系图
-
 function createGraph() {
   const mainAsset = createAsset("./example/main.js");
 
@@ -81,6 +86,15 @@ function createGraph() {
   return queue;
 }
 const graph = createGraph();
+//初始化插件
+function initPlugins() {
+  const plugins = webpackConfig.plugins;
+  plugins.forEach((item) => {
+    //传入我们自己的hooks
+    item.apply(hooks);
+  });
+}
+initPlugins();
 //处理这个图结构 动态渲染
 function build(graph) {
   const template = fs.readFileSync("./dist/bundle.ejs", { encoding: "utf-8" });
@@ -94,8 +108,19 @@ function build(graph) {
   });
   //把esm转化为cjs ejs.render
   const code = ejs.render(template, { data });
-  console.log(data);
-  fs.writeFileSync("./dist/bundle.js", code);
+  //输出的路径
+  let OutPutPath = "./dist/bundle.js";
+  const pluginsContext = {
+    changePath(path) {
+      if (path) {
+        OutPutPath = path;
+      }
+    },
+  };
+  //调用这个事件
+  hooks.emitFile.call(pluginsContext);
+
+  fs.writeFileSync(OutPutPath, code);
 }
 
 build(graph);
