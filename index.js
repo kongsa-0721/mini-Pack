@@ -5,6 +5,7 @@ import parser from "@babel/parser";
 import traverse from "@babel/traverse";
 import { transformFromAst } from "babel-core";
 
+//id就是每一个文件的id
 let id = 0;
 function createAsset(filepath) {
   //获取内容
@@ -47,6 +48,7 @@ function createGraph() {
   for (const asset of queue) {
     asset.deps.forEach((relativePath) => {
       const child = createAsset(path.resolve("./example", relativePath));
+      //把映射关系写进去
       asset.mapping[relativePath] = child.id;
       queue.push(child);
     });
@@ -65,6 +67,7 @@ function build(graph) {
       mapping,
     };
   });
+  //把esm转化为cjs ejs.render
   const code = ejs.render(template, { data });
   console.log(data);
   fs.writeFileSync("./dist/bundle.js", code);
