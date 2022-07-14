@@ -13,37 +13,45 @@
   }
   require(0);
 })({
-  0: [
-    function (require, module, exports) {
-      "use strict";
+    
+      "0": [function(require, module, exports) {
+        "use strict";
 
-      var _foo = require("./foo.js");
+var _foo = require("./foo.js");
 
-      var _foo2 = _interopRequireDefault(_foo);
+var _foo2 = _interopRequireDefault(_foo);
 
-      function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : { default: obj };
-      }
+var _info = require("./info.json");
 
-      (0, _foo2.default)();
-      console.log("this is main js");
-    },
-    { "./foo.js": 1 },
-  ],
+var _info2 = _interopRequireDefault(_info);
 
-  1: [
-    function (require, module, exports) {
-      "use strict";
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-      Object.defineProperty(exports, "__esModule", {
-        value: true,
-      });
-      exports.default = foo;
+(0, _foo2.default)();
+console.log(_info2.default);
+console.log("this is main js");
+      },{"./foo.js":1,"./info.json":2}],
+    
+      "1": [function(require, module, exports) {
+        "use strict";
 
-      function foo() {
-        console.log("this is foo js");
-      }
-    },
-    {},
-  ],
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = foo;
+
+function foo() {
+  console.log("this is foo js");
+}
+      },{}],
+    
+      "2": [function(require, module, exports) {
+        "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = "{\n  \"name\": \"kongsa\",\n  \"type\": \"module\"\n}\n";
+      },{}],
+    
 });

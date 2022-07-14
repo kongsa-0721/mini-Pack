@@ -4,13 +4,38 @@ import ejs from "ejs";
 import parser from "@babel/parser";
 import traverse from "@babel/traverse";
 import { transformFromAst } from "babel-core";
+import jsonLoader from "./example/jsonLoader.js";
 
 //id就是每一个文件的id
 let id = 0;
+const webpackConfig = {
+  module: {
+    rules: [
+      {
+        test: /\.json$/,
+        use: jsonLoader,
+      },
+    ],
+  },
+};
 function createAsset(filepath) {
   //获取内容
-  const source = fs.readFileSync(filepath, {
+  let source = fs.readFileSync(filepath, {
     encoding: "utf-8",
+  });
+  //loader
+  const loaders = webpackConfig.module.rules;
+  //添加依赖
+  const loaderContext = {
+    addDeps(deps) {
+      console.log("this is a", deps);
+    },
+  };
+  loaders.forEach(({ test, use }) => {
+    if (test.test(filepath)) {
+      //使用call改变this指向
+      source = use.call(loaderContext, source);
+    }
   });
   //获取依赖关系 通过ast
   const ast = parser.parse(source, {
