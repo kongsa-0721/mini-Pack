@@ -13,45 +13,54 @@
   }
   require(0);
 })({
-    
-      "0": [function(require, module, exports) {
-        "use strict";
+  0: [
+    function (require, module, exports) {
+      "use strict";
 
-var _foo = require("./foo.js");
+      var _foo = require("./foo.js");
 
-var _foo2 = _interopRequireDefault(_foo);
+      var _foo2 = _interopRequireDefault(_foo);
 
-var _info = require("./info.json");
+      var _info = require("./info.json");
 
-var _info2 = _interopRequireDefault(_info);
+      var _info2 = _interopRequireDefault(_info);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+      function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : { default: obj };
+      }
 
-(0, _foo2.default)();
-console.log(_info2.default);
-console.log("this is main js");
-      },{"./foo.js":1,"./info.json":2}],
-    
-      "1": [function(require, module, exports) {
-        "use strict";
+      (0, _foo2.default)();
+      console.log(_info2.default);
+      console.log("this is main js");
+    },
+    { "./foo.js": 1, "./info.json": 2 },
+  ],
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = foo;
+  1: [
+    function (require, module, exports) {
+      "use strict";
 
-function foo() {
-  console.log("this is foo js");
-}
-      },{}],
-    
-      "2": [function(require, module, exports) {
-        "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true,
+      });
+      exports.default = foo;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = "{\n  \"name\": \"kongsa\",\n  \"type\": \"module\"\n}\n";
-      },{}],
-    
+      function foo() {
+        console.log("this is foo js");
+      }
+    },
+    {},
+  ],
+
+  2: [
+    function (require, module, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true,
+      });
+      exports.default = '{\n  "name": "kongsa",\n  "type": "module"\n}\n';
+    },
+    {},
+  ],
 });
